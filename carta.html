@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Carta Compromiso</title>
+    <link rel="icon" href="icono-192.png" type="image/png">
+    <script src="files/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+
+ <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+
+* {
+ -webkit-tap-highlight-color: transparent;
+ -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+ -moz-tap-highlight-color: transparent;
+}
+
+    html,body {
+    background: linear-gradient(to right, #1d976c, #93f9b9);
+    overflow: hidden;
+}
+
+.contenido{
+     background-color: whitesmoke;
+      border-radius: 40px;
+      font-family: 'Oswald';
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      transform: translate(-50%, -50%);
+      position: fixed;
+      top: 50%; 
+      left: 50%; 
+      width: 380px;
+      height: 700px;
+    }
+    .tituloForm{
+      color: #353535;
+      font-size: 40px;
+      margin-bottom: 0;
+    }
+    .h3Form{
+    margin-bottom:0;
+    color: #353535;
+    font-size: 25px;
+  
+    }
+    
+    .inputCarta {
+    width: 300px;
+    height: 50px;
+    padding: 10px;
+    border: 1px solid #a1a1a1;
+    border-radius: 10px;
+    font-family: "Oswald";
+    font-size: 16px; 
+    font-weight: bold;
+    box-sizing: border-box; 
+    color:  #353535;
+    }
+    .inputCarta:focus {
+    outline-color:  #353535; 
+   
+}
+
+.btnsForm {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin-top: 40px; 
+}
+.btnForm{
+  font-family: 'Oswald';
+  background: linear-gradient(to right, #1d976c, #93f9b9);
+  width: 100%;
+  border: none;
+  height: 50px;
+  cursor: pointer;
+  border-radius:10px;
+  color: white;
+  font-size: 25px;
+}
+
+.pageWORD {
+        color: black;
+        width: 215.9mm; 
+        height: 279.4mm; 
+        background-color: white; 
+        margin: auto;
+    }
+    .contentWORD {
+        font-style: normal;
+        font-family: 'Arial';
+        padding-left: 22mm;
+        padding-top: 10mm;
+        padding-right: 30mm;
+    }
+    .headerWORD {
+        line-height: 1.15;
+    }
+    .pageWORD h1 {
+        text-align: right;
+        font-size: 12pt;
+        font-weight: normal;
+    }
+    .pageWORD h2 {
+        font-size: 18pt;
+        text-align: center;
+        font-weight: bold;
+    }
+    .pageWORD h3 {
+        font-weight: normal;
+        text-align: center;
+        font-size: 18pt;
+        font-style: italic;
+    }
+    .textoWORD {
+        text-align: justify;
+        font-size: 12pt;
+        text-indent: 40px;
+        line-height: 2;
+    }
+ 
+ </style> 
+ 
+<body>
+
+  <div class="ocultar" style=" position: absolute;
+  left: -9999px;
+  top: -9999px;">
+  <div id="pageWORD" class="pageWORD">
+    <div class="contentWORD">
+         <div style="display: flex; justify-content: space-between; margin: 0;">
+        <img src="cobaes.png" style="width: 28.77mm; ">
+        <img src="sinaloa.png" style="width: 31.12mm; "></div>
+        <div class="headerWORD">
+            <h1>Mazatlán, Sinaloa <span id="fechaWORD"></span>.</h1>
+            <h2>CARTA COMPROMISO</h2>
+            
+        </div>
+        <div class="textoWORD">
+            <p>Yo <span id="alumnoWORD"></span> alumno(a) 
+                del grupo <span id="grupoWORD"></span> de la Institución Educativa COBAES “Ignacio Ramírez”, 
+                externo compromiso de sujetarme a las indicaciones académicas o disciplinares 
+                que se me asignen por parte de la Dirección del plantel o, en su caso, por el 
+                área de Prefectura, debido a que incurrí en incumplimiento del reglamento de la 
+                Institución, ya que mi actitud generó el siguiente problema de indisciplina: 22. 
+                Participar en un altercado, incurrir en conductas de agresión física y/o juegos o bromas 
+                que impliquen un riesgo de provocar lesiones o heridas. Por tanto, soy consciente que de seguir incurriendo
+                en esta problemática o alguna otra, implicará en una sanción de acuerdo con lo que establecen las Normas de
+                Servicios Escolares y Acuerdos Internos para la Convivencia Escolar.
+                 <p style="text-indent: 40px; margin-top: -10px;">Para efecto legal, se extiende la
+                presente a los <span id="diaWORD"></span> días del mes de <span id="mesWORD"></span> del <span id="anoWORD"></span>.</p></p>
+        </div>
+    </div>
+    <img src="firmas.png" alt="" style="width: 100%; display: block; margin-left: auto; margin-right: auto; margin-top: 30px;"> 
+  
+  </div>
+  </div>
+  
+  <div class="contenido"> 
+
+    <h1 class="tituloForm">Carta Compromiso</h1>
+
+    <form id="compromisoForm">
+      <h3 class="h3Form">Alumno:</h3>
+      <input style="text-transform: capitalize;" autocomplete="off" id="alumno" required type="text" class="inputCarta" placeholder="Alumno" minlength="15">
+      
+      <h3  class="h3Form">Grupo:</h3>
+      <input autocomplete="off" id="grupo" required type="tel" class="inputCarta" minlength="3" maxlength="3" placeholder="Grupo">
+     
+      <h3 class="h3Form">Dia:</h3>
+      <input autocomplete="off" id="dia" required type="tel" class="inputCarta" minlength="1" maxlength="2" placeholder="Dia">
+   
+      <h3 class="h3Form">Mes:</h3>
+      <input autocomplete="off" id="mes" required type="tel" class="inputCarta" minlength="1" maxlength="2" placeholder="Mes">
+    
+  
+      <div class="btnsForm">
+        <button class="btnForm" type="button"  onclick="window.location.href='index.html';">Cancelar</button>
+        <button class="btnForm" type="submit">imprimir</button>
+      </div>
+    </form>
+
+  </div>
+  
+
+    </body>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+  import { getStorage } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpfZQ-XYddUmYiWoI2DUC33f-XhDDgoIE",
+    authDomain: "cobaes35-a4d98.firebaseapp.com",
+    projectId: "cobaes35-a4d98",
+    storageBucket: "cobaes35-a4d98.appspot.com",
+    messagingSenderId: "758607121239",
+    appId: "1:758607121239:web:eb5f71566fdf6b6d844c12"
+  };
+  
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const storage = getStorage(app);
+  
+  document.addEventListener('DOMContentLoaded', (event) => {
+  const form = document.getElementById('compromisoForm');
+
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    insertarReporte();
+  });
+});
+
+function limpiarFormulario() {
+    document.getElementById("alumno").value = "";
+    document.getElementById("grupo").value = "";
+}
+
+
+function subirScroll() {
+    window.scrollTo({
+        top: 0
+    });
+}
+
+
+function imprimir() {
+
+    var alumno = document.getElementById('alumno').value.replace(/\b\w/g, function(match) {
+    return match.toUpperCase();
+    });
+    var grupo = document.getElementById('grupo').value;
+    var dia = document.getElementById('dia').value ;
+    var mes =document.getElementById('mes').value ;
+    var ano = new Date().getFullYear();
+
+    document.getElementById('alumnoWORD').innerText = alumno;
+    document.getElementById('grupoWORD').innerText = grupo;
+    document.getElementById('diaWORD').innerText = dia;
+    document.getElementById('mesWORD').innerText = mes;
+    document.getElementById('anoWORD').innerText = ano;
+    document.getElementById('fechaWORD').innerText = `${dia} de ${mes} de ${ano}`;
+    
+    const delay = 50; 
+
+    setTimeout(() => {
+      generar('Carta_'+alumno+'_'+grupo+'.pdf');
+    }, delay);
+
+    }
+
+
+  function volver() {
+        window.location.href = 'index.html';
+    }
+
+function generar(filename){
+
+var element = document.getElementById('pageWORD');
+
+if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+          html2pdf(element, {
+            filename: filename,
+            image: { type: 'jpeg', quality: 5 },
+              html2canvas: { scale: 4, logging: true },
+              jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        }); 
+
+        }
+
+        else{
+          const options = {
+        margin: [0, 0, 0, 0],
+        filename: 'documento.pdf', 
+        image: { type: 'jpeg', quality: 5 }, 
+        html2canvas: { scale: 4 }, 
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+      };
+    
+      html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+        window.open(pdf.output('bloburl'), '_blank');
+      });
+
+        }
+}
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+  const today = new Date();
+  const day = today.getDate();
+  const monthNames = [
+    "enero", "febrero", "marzo", "abril", "mayo", "junio",
+    "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
+  ];
+  const month = monthNames[today.getMonth()]; 
+
+  document.getElementById('dia').value = day ; 
+  document.getElementById('mes').value = month;
+});
+
+function obtenerFechaFormateada() {
+const fechaActual = new Date();
+
+const dia = fechaActual.getDate().toString().padStart(2, '0');
+const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+const año = fechaActual.getFullYear();
+
+let horas = fechaActual.getHours();
+const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+
+
+const periodo = horas >= 12 ? 'p.m.' : 'a.m.';
+
+horas = horas % 12;
+horas = horas ? horas : 12;
+
+const horaFormateada = `${horas}:${minutos} ${periodo}`;
+
+return `${dia}/${mes}/${año} ${horaFormateada}`;
+}
+
+  function insertarReporte() {
+    const reportesRef = ref(db,'Carta Compromiso');
+     var dia = document.getElementById('dia').value ;
+    var mes =document.getElementById('mes').value ;
+    var ano = new Date().getFullYear();
+    var alumno = document.getElementById('alumno').value.replace(/\b\w/g, function(match) {
+      return match.toUpperCase();
+    });
+    var grupoValue = document.getElementById('grupo').value.toUpperCase();
+
+    const nuevoReporte = {
+      tipo:"Carta Compromiso",
+      nombre: alumno,
+      fecha: obtenerFechaFormateada(),
+      fecha2: `${dia} de ${mes} de ${ano}`,
+      status: false,
+      dia:dia,
+      mes:mes,
+      ano:ano,
+      grupo: grupoValue
+    };
+  
+    push(reportesRef, nuevoReporte);
+    subirScroll();
+    imprimir();
+    limpiarFormulario();
+  }
+</script>
+
+
+
+</html>

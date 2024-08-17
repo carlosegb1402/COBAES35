@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Inicio</title>
+    <link rel="icon" href="icono-192.png" type="image/png">
+    <script src="app.js"></script>
+    <link rel="manifest" href="manifest.json">
+</head>
+<style>
+  
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+* {
+    -webkit-tap-highlight-color: transparent; /* Safari, iOS */
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Otros navegadores basados en WebKit */
+    -moz-tap-highlight-color: transparent; /* Firefox */
+}
+
+body {
+    font-family: "Oswald", Arial;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(to right, #1d976c, #93f9b9);
+    overflow: hidden;
+}
+
+.contenido{
+  background-color: whitesmoke;
+    overflow: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    height: 70vh; 
+}
+
+.titulo{
+    font-family:  "Oswald", Arial;
+    font-size: 40px; 
+    font-weight: bold;
+    font-style: italic;
+    color: whitesmoke;
+    text-align: center;
+    text-shadow: 2px 3px 10px rgb(49, 49, 49);
+
+}
+
+
+ 
+  
+button,
+button:focus {
+  font-family: "Oswald";
+  font-style: italic;
+  font-size: 23px;
+  height: 80px;
+  width: 250px;
+  padding: 10px 25px;
+  border-radius: 0.7rem;
+  background:  whitesmoke;
+  border: 2px solid rgb(199, 199, 199);
+  border-bottom: 5px solid rgb(170, 170, 170);
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);;
+  transform: translate(0, -3px);
+  cursor: pointer;
+  transition: 0.2s;
+  transition-timing-function: linear;
+  color: #333;
+  font-weight: bold ;
+  
+}
+
+button:active {
+  transform: translate(0, 0);
+  border-bottom: 7px solid rgba(102, 102, 102, 0.637);
+}
+
+
+.containerBTN {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 80px; 
+}
+  </style>
+<body>
+
+  <h1 class="titulo">Generar Documento</h1>
+    <div class="container">
+      <button class="button" id="reporte"  >
+        Reporte
+     </button>
+      <br>
+     <button class="button" id="carta" >
+        Carta Compromiso
+      </button>
+      <br>
+      <button class="button" id="justificante"  >
+        Justificante
+      </button>
+      <br>
+      <button class="button" id="inasistencia"  >
+        Reporte Inasistencia
+      </button>
+      <br>
+      <button class="button" id="citatorio" >
+        Citatorio
+      </button>
+      <br>
+      <button class="button" id="historialBtn" >
+        Ultimos Reportes
+      </button>
+
+
+    </div>
+
+    <div class="ocultar" style="position: absolute; left: -9999px; top: -9999px;">
+        <div id="page-inasistencia-pdf" class="page-inasistencia-pdf">
+            <div class="content-inasistencia-pdf">
+                <div style="display: flex; justify-content: space-between;">
+                    <img src="cobaes.png" style="width: 28.77mm; margin-left: 5px;">
+                    <img src="sinaloa.png" style="width: 31.12mm; margin-right: 5px;">
+                </div>
+    
+                <div class="header-inasistencia-pdf">
+                    <h1 class="inasistencia-pdf" style="color: black;">COBAES 35 “IGNACIO RAMÍREZ”</h1>
+                    <h2 class="inasistencia-pdf">CLAVE: 25ECB0035P</h2> <br>
+                    <h3 class="inasistencia-pdf">REPORTE DE INASISTENCIA</h3>
+                    <br><br><br><br><br><br><br><br>
+                    <p class="inasistencia-pdf" style="font-size: 12pt; font-weight: bold;">PROFR. (A): <span id="profesor-pdf" style="font-weight: normal;"></span></p>
+                </div>
+    
+                <div class="texto-inasistencia-pdf">
+                    <span>Mediante la presente, le extiendo un cordial saludo. Asimismo, le informo que el día <span id="dia-pdf"></span> del
+                    presente mes se le reporta una inasistencia en la(s) asignatura(s) de <span id="asignatura-pdf"></span> por la cantidad de <span id="hora-pdf"></span> horas
+                    de clase.</span>
+    
+                    <br><br>
+                    <span>De tal manera, en apego al <strong>Artículo 60</strong> del <strong>MARCO JURÍDICO</strong> que nos rige, en la <strong>Fracción VI</strong>
+                    (Cumplimiento de jornada laboral) y <strong>Fracción XVI</strong> (Justificación del impedimento laboral), se le solicita hacer
+                    llegar justificante ya sea por Comisión oficial, Constancia del ISSSTE, Comisión de Dependencia Educativa
+                    del gobierno o por Comisión Sindical SNTE 53, en un margen de 72 horas (3 días) una vez extendido este
+                    reporte.</span>
+                    <br><br>
+    
+                    <span>Sin más por el momento, en espera del justificante, le reiteramos nuestra comprensión a sus funciones y
+                    agradecimiento por sus atenciones.</span>
+                </div>
+    
+                <br><br><br><br><br>
+    
+                <strong><p style="text-align: center;">ATTE.</p></strong>
+                <div class="signatures-inasistencia">
+                    <div class="signature-inasistencia">
+                        <p>________________________________</p>
+                        <p><strong>PREFECTO (A)</strong></p>
+                    </div>
+                    <div class="signature-inasistencia">
+                        <p>________________________________</p>
+                        <p><strong>Director Del Plantel</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+
+document.getElementById('historialBtn').addEventListener('click', function() {
+            window.location.href = 'historial.html';
+        });
+
+
+
+const list = document.querySelectorAll('.list');
+function activeLink() {
+    list.forEach((item) =>
+    item.classList.remove('active'));
+    this.classList.add('active');
+}
+list.forEach((item) =>
+item.addEventListener('click',activeLink));
+  
+    history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, document.URL);
+    });
+
+    history.pushState(null, null, location.href);
+  window.onpopstate = function () {
+    history.go(1);
+  };
+
+    document.getElementById('reporte').addEventListener('click', function() {
+    window.location.href = 'reporte.html'; 
+      });
+
+      document.getElementById('justificante').addEventListener('click', function() {
+    window.location.href = 'justificante.html';
+      });
+
+      document.getElementById('carta').addEventListener('click', function() {
+    window.location.href = 'carta.html';
+      });
+
+      document.getElementById('citatorio').addEventListener('click', function() {
+    window.location.href = 'citatorio.html';
+      });
+
+      document.getElementById('inasistencia').addEventListener('click', function() {
+    window.location.href = 'inasistencia.html';
+      });
+
+    </script>
+    
+</html>

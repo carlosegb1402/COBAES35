@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Ultimos Reportes</title>
+    <link rel="icon" href="icono-192.png" type="image/png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="inasistencias.js" type="module"></script>
+    <script src="reporte.js" type="module"></script>
+    <script src="justificante.js" type="module"></script>
+    <script src="compromiso.js" type="module"></script>
+    <script src="citatorio.js" type="module"></script>
+    <script src="files/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+
+        * {
+            -webkit-tap-highlight-color: transparent; /* Safari, iOS */
+            -webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* Otros navegadores basados en WebKit */
+            -moz-tap-highlight-color: transparent; /* Firefox */
+        }
+
+        body {
+            font-family: "Oswald", Arial;
+            background: linear-gradient(to right, #1d976c, #93f9b9);
+            height: 100%;
+        }
+
+
+        .search-bar {
+            color: whitesmoke;
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            }
+
+            .search-input {
+                font-family: "Oswald", Arial;
+                color: whitesmoke;
+                background-color: transparent;
+                width: 100%;
+                padding: 10px;
+                font-size: 16px;
+                border: none;
+                border-bottom: 3px solid whitesmoke;
+                outline: none;
+                padding-left: 40px; 
+            }
+            .search-input::placeholder{
+                color: whitesmoke;
+            }
+
+            .search-icon {
+                position: relative;
+                color: whitesmoke;
+                left: 30px;
+            }
+
+         
+        .search-select {
+            font-family: "Oswald", Arial;
+            color: white;
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid whitesmoke ;
+            margin-left: 10px;
+            margin-right: 15px;
+            outline: none; 
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+        }
+
+    .h11 {
+        text-align: center;
+            font-style: italic;
+            color: whitesmoke;
+            font-size: 20px;
+}
+
+.card {
+        background-color: whitesmoke;
+        width: 360px;
+        margin: auto;
+        border: 1px solid whitesmoke;
+        border-radius: 15px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative; 
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+    .card p{
+        margin: 0;
+        margin-left: 20px;
+    }
+
+    .card-header {   
+        margin-left: 20px;
+        margin-right: 10px;
+        font-size: 15px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .delete-button {
+        background: transparent;
+        border: none;
+        font-size: 18px;
+        cursor: pointer;
+    }
+
+
+    .button-container {
+        display: flex;
+        gap: 10px;
+        margin-left: 20px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .resuelto{
+  color: #1d976c;   font-weight: bold;
+}.no-resuelto{
+  color: #e23a3a;   font-weight: bold;
+}
+
+    .print-button {
+        font-family: 'Oswald';
+        background-color: #1d976c;
+        border: none;
+        color: whitesmoke;
+        border-radius: 5px;
+        width: 100px;
+        font-weight: bold;
+    }
+    .printbutton {
+        font-family: 'Oswald';
+        background-color: #1d976c;
+        border-radius: 5px;
+        border: none;
+        color: whitesmoke;
+        height: 40px;
+        width: 100px;
+        font-weight: bold;
+    }
+
+    .print-button-false {
+        font-family: 'Oswald';
+        border: none;
+        background-color: #e23a3a;
+        color: whitesmoke;
+        border-radius: 5px;
+        width: 100px;
+        font-weight: bold;
+        }
+        .containerBTN {
+        position: fixed; 
+        bottom: 20px;   
+        right: 20px;    
+    }
+    .button2{
+            border: none;
+            height: 80px;
+            width: 80px;
+            margin: auto;
+            border-radius: 50%;
+            background: linear-gradient(to right, #1d976c, #93f9b9);
+            border: 3px solid #6bb385;
+    }
+    
+    </style>
+</head>
+<body>
+    <div class="search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" class="search-input" id="searchInput" placeholder="Buscar" oninput="buscar()">
+        <select class="search-select" id="searchSelect" onchange="filtrarYOrdenar()">
+            <option value="todos" selected>Todas</option>
+            <option value="cardContainerInasistencia">Inasistencia</option>
+            <option value="cardContainerReporte">Reporte</option>
+            <option value="cardContainerJustificante">Justificante</option>
+            <option value="cardContainerCompromiso">Carta Compromiso</option>
+            <option value="cardContainerCitatorio">Citatorio</option>
+        </select>
+    </div>
+
+    <h1 class="h11" id="headerInasistencia"> Reportes Inasistencia </h1>
+    <div class="container" id="cardContainerInasistencia"></div>
+
+    <h1  class="h11" id="headerReporte"> Reportes </h1>
+    <div class="container" id="cardContainerReporte"></div>
+
+    <h1  class="h11" id="headerJustificante"> Justificantes </h1>
+    <div class="container" id="cardContainerJustificante"></div>
+
+    <h1  class="h11"  id="headerCompromiso"> Cartas Compromiso </h1>
+    <div class="container" id="cardContainerCompromiso"></div>
+
+    <h1   class="h11" id="headerCitatorio"> Citatorios </h1>
+    <div class="container" id="cardContainerCitatorio"></div>
+
+  
+    <div class="containerBTN">
+      <button style="color: whitesmoke;" class="button2" id="agregarBtn" onclick="volver()"><img src="iconHome.png"  style="width: 40px;"></button>
+    </div>
+</body>
+
+<script>
+
+function imprimirJustificante(fecha,sem,grupo,alumno,dia,dia2,mes,motivo){
+
+document.getElementById('justificante-alumno').textContent = alumno;
+document.getElementById('justificante-grupo').textContent =  grupo;
+document.getElementById('justificante-fecha').textContent = fecha;
+document.getElementById('justificante-sem').textContent = sem;
+document.getElementById('justificante-dia').textContent = dia;
+document.getElementById('justificante-dia2').textContent = dia2;
+document.getElementById('justificante-mes').textContent = mes;
+
+switch (motivo) {
+    case 'SALUD':
+    document.getElementById('justificante-checkboxSalud').checked = true;
+        break;
+    case 'CITA MEDICA':
+    document.getElementById('justificante-checkboxCitaMedica').checked = true;
+        break;
+    case 'TRAMITES EXTERNOS':
+    document.getElementById('justificante-checkboxTramites').checked = true;
+        break;
+    case 'PERSONALES':
+    document.getElementById('justificante-checkboxPersonales').checked = true;
+        break;
+    case 'OTROS':
+    document.getElementById('justificante-checkboxOtros').checked = true;
+}
+
+
+const delay = 50; 
+
+setTimeout(() => {
+var element = document.getElementById('justificante-page');
+
+if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+html2pdf(element, {
+filename: 'justificante_'+alumno+'_'+grupo+'.pdf',
+image: { type: 'jpeg', quality: 5 },
+  html2canvas: { scale: 4, logging: true },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+}); 
+
+}
+
+else{
+
+const options = {
+margin: [0, 0, 0, 0],
+filename: 'documento.pdf', 
+image: { type: 'jpeg', quality: 5 }, 
+html2canvas: { scale: 4 }, 
+jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+};
+
+html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+window.open(pdf.output('bloburl'), '_blank');
+});
+
+}
+}, delay);
+
+}
+
+function imprimirCitatorio(alumno,grupo,fecha,hora){
+
+document.getElementById('citatorio-alumno').textContent = alumno;
+document.getElementById('citatorio-grupo').textContent =  grupo;
+document.getElementById('citatorio-fecha').textContent = fecha;
+document.getElementById('citatorio-hora').textContent = hora;
+
+
+
+const delay = 50; 
+
+setTimeout(() => {
+var element = document.getElementById('citatorio-page');
+
+if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+html2pdf(element, {
+filename: 'citatorio_'+alumno+'_'+grupo+'.pdf',
+image: { type: 'jpeg', quality: 5 },
+  html2canvas: { scale: 4, logging: true },
+  jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+}); 
+
+}
+
+else{
+
+const options = {
+margin: [0, 0, 0, 0],
+filename: 'documento.pdf', 
+image: { type: 'jpeg', quality: 5 }, 
+html2canvas: { scale: 4 }, 
+jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+};
+
+html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+window.open(pdf.output('bloburl'), '_blank');
+});
+
+}
+}, delay);
+
+}
+
+function imprimirReporte(alumno,grupo,motivo,sancion,fecha,hora){
+
+    document.getElementById('reporte-alumno').textContent = alumno;
+    document.getElementById('reporte-grupo').textContent =grupo;
+    document.getElementById('reporte-motivo').textContent = motivo;
+    document.getElementById('reporte-sancion').textContent = sancion;
+    document.getElementById('reporte-fecha').textContent = fecha;
+    document.getElementById('reporte-hora').textContent = hora;
+
+
+const delay = 50; 
+
+  setTimeout(() => {
+    var element = document.getElementById('reportePage');
+
+if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+  html2pdf(element, {
+    filename: 'Reporte_'+alumno+'_'+grupo+'.pdf',
+    image: { type: 'jpeg', quality: 5 },
+      html2canvas: { scale: 4, logging: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+}); 
+
+}
+
+else{
+
+const options = {
+margin: [0, 0, 0, 0],
+filename: 'documento.pdf', 
+image: { type: 'jpeg', quality: 5 }, 
+html2canvas: { scale: 4 }, 
+jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+};
+
+html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+window.open(pdf.output('bloburl'), '_blank');
+});
+
+}
+  }, delay);
+
+}
+
+function imprimirCarta(fechaCARTA,alumnoCARTA,grupoCARTA,diaCARTA,mesCARTA,anoCARTA){
+
+document.getElementById('fechaCARTA').textContent = fechaCARTA;
+document.getElementById('alumnoCARTA').textContent = alumnoCARTA;
+document.getElementById('grupoCARTA').textContent = grupoCARTA;
+document.getElementById('diaCARTA').textContent = diaCARTA;
+document.getElementById('mesCARTA').textContent = mesCARTA;
+document.getElementById('anoCARTA').textContent = anoCARTA;
+
+
+const delay = 50; 
+
+  setTimeout(() => {
+    var element = document.getElementById('pageCARTA');
+
+if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+  html2pdf(element, {
+    filename: 'Carta_'+alumnoCARTA+'_'+grupoCARTA+'.pdf',
+    image: { type: 'jpeg', quality: 5 },
+      html2canvas: { scale: 4, logging: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+}); 
+
+}
+
+else{
+
+const options = {
+margin: [0, 0, 0, 0],
+filename: 'documento.pdf', 
+image: { type: 'jpeg', quality: 5 }, 
+html2canvas: { scale: 4 }, 
+jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+};
+
+html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+window.open(pdf.output('bloburl'), '_blank');
+});
+
+}
+  }, delay);
+
+}
+
+
+    function imprimirInasistencia(prof,dia,asignatura,hora){
+
+    document.getElementById('profesor-inasistencia-pdf').textContent = prof;
+    document.getElementById('dia-inasistencia-pdf').textContent = dia;
+    document.getElementById('asignatura-inasistencia-pdf').textContent = asignatura;
+    document.getElementById('hora-inasistencia-pdf').textContent = hora;
+
+
+    const delay = 50; 
+
+      setTimeout(() => {
+        var element = document.getElementById('page-inasistencia-pdf');
+
+if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+      html2pdf(element, {
+        filename: 'Inasistencia_'+prof+'.pdf',
+        image: { type: 'jpeg', quality: 5 },
+          html2canvas: { scale: 4, logging: true },
+          jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    }); 
+
+    }
+
+    else{
+
+    const options = {
+    margin: [0, 0, 0, 0],
+    filename: 'documento.pdf', 
+    image: { type: 'jpeg', quality: 5 }, 
+    html2canvas: { scale: 4 }, 
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+  };
+
+  html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+    window.open(pdf.output('bloburl'), '_blank');
+  });
+
+    }
+      }, delay);
+
+    }
+
+    function filtrarYOrdenar() {
+        const selectElement = document.getElementById('searchSelect');
+        const selectedValue = selectElement.value;
+    
+        const containerIds = [
+            'cardContainerInasistencia',
+            'cardContainerReporte',
+            'cardContainerJustificante',
+            'cardContainerCompromiso',
+            'cardContainerCitatorio'
+        ];
+    
+        containerIds.forEach(containerId => {
+            const container = document.getElementById(containerId);
+            const header = document.getElementById('header' + containerId.replace('cardContainer', ''));
+    
+            if (selectedValue === 'todos' || containerId === selectedValue) {
+                container.style.display = 'block';
+                header.style.display = 'block';
+            } else {
+                container.style.display = 'none';
+                header.style.display = 'none';
+            }
+        });
+    }
+    
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        filtrarYOrdenar();
+    });
+    
+           function subirScroll() {
+        const scrollPosition = window.pageYOffset;
+        window.scrollTo({
+            top: 0
+        });
+        setTimeout(() => {
+            window.scrollTo({
+                top: scrollPosition
+            });
+        }, 2500);
+    }
+    
+        function buscar() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const cards = document.getElementsByClassName('card');
+    
+            Array.from(cards).forEach((card) => {
+                const nombre = card.getElementsByTagName('h3')[0].innerText.toLowerCase();
+                if (nombre.includes(input)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+    
+        }
+        
+            
+    function volver(){
+        window.location.href = 'index.html';
+          }
+    
+    
+        </script>
+
+<style>
+    .page-inasistencia-pdf {
+        width: 8.5in; 
+        height: 11in; 
+        background-color: white; 
+        margin: auto;
+    }
+    .content-inasistencia-pdf {
+        font-family: 'Arial';
+        font-style: normal;
+        padding-left: 1.18in;
+        padding-right: 1.18in;
+        padding-top: 0.59in;
+        padding-bottom: 0.59in;
+    }
+    .header-inasistencia-pdf {
+        line-height: .2;
+    }
+    h1.inasistencia-pdf {
+        text-align: center;
+        font-size: 18pt;
+        font-weight: bold;
+    }
+    h2.inasistencia-pdf {
+        font-size: 18pt;
+        text-align: center;
+        font-weight: bold;
+    }
+    h3.inasistencia-pdf {
+        font-weight: normal;
+        text-align: center;
+        font-size: 18pt;
+    }
+    .texto-inasistencia-pdf {
+        text-align: justify;
+        font-size: 12pt;
+        line-height: 1.5;
+        text-indent: 30px;
+    }
+    .signatures-inasistencia {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-weight: normal;
+    }
+    .signature-inasistencia {
+        margin: 0 20px; 
+    }
+    </style>
+
+<div class="ocultar" style="position: absolute; left: -9999px; top: -9999px;">
+<div id="page-inasistencia-pdf" class="page-inasistencia-pdf">
+<div class="content-inasistencia-pdf">
+<div style="display: flex; justify-content: space-between;">
+    <img src="cobaes.png" style="width: 28.77mm; margin-left: 5px;">
+    <img src="sinaloa.png" style="width: 31.12mm; margin-right: 5px;">
+</div>
+
+<div class="header-inasistencia-pdf">
+    <h1 class="inasistencia-pdf" style="color: black;">COBAES 35 “IGNACIO RAMÍREZ”</h1>
+    <h2 class="inasistencia-pdf">CLAVE: 25ECB0035P</h2> <br>
+    <h3 class="inasistencia-pdf">REPORTE DE INASISTENCIA</h3>
+    <br><br><br><br><br><br><br><br>
+    <p class="inasistencia-pdf" style="font-size: 12pt; font-weight: bold;">PROFR. (A): <span id="profesor-inasistencia-pdf" style="font-weight: normal;"></span></p>
+</div>
+
+<div class="texto-inasistencia-pdf">
+    <span>Mediante la presente, le extiendo un cordial saludo. Asimismo, le informo que el día <span id="dia-inasistencia-pdf"></span> del
+    presente mes se le reporta una inasistencia en la(s) asignatura(s) de <span id="asignatura-inasistencia-pdf"></span> por la cantidad de <span id="hora-inasistencia-pdf"></span> horas
+    de clase.</span>
+
+    <br><br>
+    <span>De tal manera, en apego al <strong>Artículo 60</strong> del <strong>MARCO JURÍDICO</strong> que nos rige, en la <strong>Fracción VI</strong>
+    (Cumplimiento de jornada laboral) y <strong>Fracción XVI</strong> (Justificación del impedimento laboral), se le solicita hacer
+    llegar justificante ya sea por Comisión oficial, Constancia del ISSSTE, Comisión de Dependencia Educativa
+    del gobierno o por Comisión Sindical SNTE 53, en un margen de 72 horas (3 días) una vez extendido este
+    reporte.</span>
+    <br><br>
+
+    <span>Sin más por el momento, en espera del justificante, le reiteramos nuestra comprensión a sus funciones y
+    agradecimiento por sus atenciones.</span>
+</div>
+
+<br><br><br><br><br>
+
+<strong><p style="text-align: center;">ATTE.</p></strong>
+<div class="signatures-inasistencia">
+    <div class="signature-inasistencia">
+        <p>________________________________</p>
+        <p><strong>PREFECTO (A)</strong></p>
+    </div>
+    <div class="signature-inasistencia">
+        <p>________________________________</p>
+        <p><strong>Director Del Plantel</strong></p>
+    </div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="ocultar" style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="pageCARTA" class="pageCARTA">
+      <div class="contentCARTA">
+        <div style="display: flex; justify-content: space-between; margin: 0;">
+          <img src="cobaes.png" style="width: 28.77mm;">
+          <img src="sinaloa.png" style="width: 31.12mm;">
+        </div>
+        <div class="headerCARTA">
+          <h1>Mazatlán, Sinaloa <span id="fechaCARTA"></span>.</h1>
+          <h2>CARTA COMPROMISO</h2>
+        </div>
+        <div class="textoCARTA">
+          <p>Yo <span id="alumnoCARTA"></span> alumno(a) del grupo <span id="grupoCARTA"></span> de la Institución Educativa COBAES “Ignacio Ramírez”, externo compromiso de sujetarme a las indicaciones académicas o disciplinares que se me asignen por parte de la Dirección del plantel o, en su caso, por el área de Prefectura, debido a que incurrí en incumplimiento del reglamento de la Institución, ya que mi actitud generó el siguiente problema de indisciplina: 22. Participar en un altercado, incurrir en conductas de agresión física y/o juegos o bromas que impliquen un riesgo de provocar lesiones o heridas. Por tanto, soy consciente que de seguir incurriendo en esta problemática o alguna otra, implicará en una sanción de acuerdo con lo que establecen las Normas de Servicios Escolares y Acuerdos Internos para la Convivencia Escolar.</p>
+          <p style="text-indent: 40px; margin-top: -10px;">Para efecto legal, se extiende la presente a los <span id="diaCARTA"></span> días del mes de <span id="mesCARTA"></span> del <span id="anoCARTA"></span>.</p>
+        </div>
+      </div>
+      <img src="firmas.png" alt="" style="width: 100%; display: block; margin-left: auto; margin-right: auto; margin-top: 30px;">
+    </div>
+  </div>
+  
+  <style>
+  .pageCARTA {
+    color: black;
+    width: 215.9mm;
+    height: 279.4mm;
+    background-color: white;
+    margin: auto;
+  }
+  
+  .contentCARTA {
+    font-style: normal;
+    font-family: 'Arial';
+    padding-left: 22mm;
+    padding-top: 10mm;
+    padding-right: 30mm;
+  }
+  
+  .headerCARTA {
+    line-height: 1.15;
+  }
+  
+  .pageCARTA h1 {
+    text-align: right;
+    font-size: 12pt;
+    font-weight: normal;
+  }
+  
+  .pageCARTA h2 {
+    font-size: 18pt;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .pageCARTA h3 {
+    font-weight: normal;
+    text-align: center;
+    font-size: 18pt;
+    font-style: italic;
+  }
+  
+  .textoCARTA {
+    text-align: justify;
+    font-size: 12pt;
+    text-indent: 40px;
+    line-height: 2;
+  }
+  </style>
+  <div class="ocultar" style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="reportePage" class="reportePage">
+      <div class="reporteContent">
+        <div style="display: flex; justify-content: space-between;">
+          <img src="cobaes.png" style="width: 0.71in;">
+          <img src="sinaloa.png" style="width: 0.71in;">
+        </div>
+        <div class="reporteHeader">
+          <h2 class="reporteH2">COLEGIO DE BACHILLERES DEL ESTADO DE SINALOA</h2>
+          <h2 class="reporteH2">COBAES 35 “Ignacio Ramírez”</h2>
+          <h3 class="reporteH3">REPORTE DISCIPLINARIO</h3>
+        </div>
+        <div class="reporteTexto">
+          <p>Por medio del presente documento se emite el siguiente reporte disciplinario al estudiante:
+            <span id="reporte-alumno"></span> que pertenece al grupo: <span id="reporte-grupo"></span>, por el motivo: <span id="reporte-motivo"></span>. 
+            El estudiante se hace acreedor a la siguiente sanción: <span id="reporte-sancion"></span>.</p>
+          <p><strong>Fecha del reporte:</strong> <span id="reporte-fecha"></span> <strong>Hora del reporte:</strong> <span id="reporte-hora"></span></p>
+        </div>
+        <div class="reporteSignatures">
+          <div class="reporteSignature">
+            <p style="font-family: Arial;">______________________</p>
+            <p>Prefectura</p>
+          </div>
+          <div class="reporteSignature">
+            <p style="font-family: Arial;">______________________</p>
+            <p>Subdirector Académico</p>
+          </div>
+          <div class="reporteSignature">
+            <p style="font-family: Arial;">______________________</p>
+            <p>Director del plantel</p>
+          </div>
+        </div>
+        <div class="reporteSignatures">
+          <div class="reporteSignature">
+            <p style="font-family: Arial;">______________________</p>
+            <p>Firma de enterado<br>Padre de familia o Tutor legal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>.reportePage {
+    font-family: Arial;
+    width: 215.9mm; 
+    height: 279.4mm; 
+    background-color: white; 
+    color: black;
+    margin: auto;
+  }
+  
+  .reporteContent {
+    font-style: normal;
+    padding-top: 48px;
+    margin-left: 40px;
+    margin-right: 48px;
+  }
+  
+  .reporteHeader {
+    line-height: 0.3;
+  }
+  
+  .reporteH1 {
+    text-align: center;
+    font-size: 18pt;
+    font-weight: bold;
+  }
+  
+  .reporteH2 {
+    font-size: 16pt;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .reporteH3 {
+    font-weight: normal;
+    text-align: center;
+    font-size: 18pt;
+    font-style: italic;
+  }
+  
+  .reporteTexto {
+    text-align: justify;
+    font-size: 12pt;
+    text-indent: 40px;
+    line-height: 1.5;
+  }
+  
+  .reporteSignatures {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .reporteSignature {
+    margin: 0 20px; 
+  }
+  </style>
+  <style>
+    .citatorio-page {
+        width: 8.5in; 
+        height: 11in; 
+        background-color: white; 
+        margin: auto;
+      }
+      
+      .citatorio-content {
+        font-family: 'Arial';
+        font-style: normal;
+        padding-left: 0.5in;
+        padding-right: 0.5in;
+        padding-top: 0.5in;
+        padding-bottom: 0.5in;
+      }
+      
+      .citatorio-header {
+        line-height: .2;
+      }
+      
+      .citatorio-title {
+        text-align: center;
+        font-size: 18pt;
+        font-weight: bold;
+      }
+      
+      .citatorio-subtitle {
+        font-size: 18pt;
+        text-align: center;
+        font-weight: bold;
+      }
+      
+      .citatorio-heading {
+        font-weight: normal;
+        text-align: center;
+        font-size: 18pt;
+      }
+      
+      .citatorio-text {
+        text-align: justify;
+        font-size: 12pt;
+        line-height: 1.5;
+      }
+      
+      .citatorio-signatures {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        font-weight: normal;
+      }
+      
+      .citatorio-signature {
+        margin: 0 20px; 
+      }
+      
+      .citatorio-indent {
+        text-indent: 40px;
+        display: block;
+      }
+      
+      .citatorio-data {
+        font-weight: normal;
+      }</style>  
+
+<div class="ocultar" style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="citatorio-page" class="citatorio-page">
+      <div class="citatorio-content">
+        <div style="display: flex; justify-content: space-between;">
+        <img src="cobaes.png" style="width: 28.77mm; margin-left: 5px;">
+        <img src="sinaloa.png" style="width: 31.12mm; margin-right: 5px;"></div>
+      <div class="citatorio-header">
+        <h1 class="citatorio-title" style="color: black;">COBAES 35 “IGNACIO RAMÍREZ”</h1>
+        <h2 class="citatorio-subtitle">CLAVE: 25ECB0035P</h2>
+        <br>
+        <h3 class="citatorio-heading">CITATORIO</h3>
+        <p class="citatorio-greeting" style="font-size: 12pt; font-weight: bold;">C. PADRE DE FAMILIA:</p>
+        <p class="citatorio-greeting" style="font-size: 12pt;">PRESENTE.</p>
+      </div>
+      <div class="citatorio-text">
+        <div class="citatorio-indent">
+          <span>Mediante este presente se le extiende un cordial saludo esperando se encuentre muy bien. Además, externarle la necesidad de citarlo con el objetivo de presentar la situación del estudiante:
+          <span id="citatorio-alumno" class="citatorio-data"></span> que pertenece al grupo: <span id="citatorio-grupo" class="citatorio-data"></span> el cual ha incido en irregularidades que se contraponen a las Normas de servicios escolares y Acuerdos Internos para la Convivencia Escolar de nuestro plantel.</span>
+        </div>
+        <br>
+        <div class="citatorio-indent">
+          <span>El motivo de la reunión será para atender asuntos académicos y de disciplina de los estudiantes, así mismo, para atención al programa de Escuela para Padres y Ambientes de Paz. Los esperamos.</span>
+        </div>
+        <br>
+        <span><strong>Fecha de la cita:</strong> <span id="citatorio-fecha" class="citatorio-data"></span> <strong>Hora de la cita:</strong> <span id="citatorio-hora" class="citatorio-data"></span></span>
+        <br><br><br><br>
+        <div class="citatorio-signatures">
+          <div class="citatorio-signature">
+            <span style="font-family: Arial;">________________________________</span><br>
+            <span><strong>M. C. Pedro Emmanuel Salas Rodríguez</strong></span><br>
+            <span>COBAES 35 “Ignacio Ramírez”</span>
+          </div>
+        </div>
+        <br><br><br>
+        <div class="citatorio-signatures">
+          <div class="citatorio-signature">
+            <span style="font-family: Arial;">________________________________</span><br>
+            <span><strong>Padre de familia o Tutor legal</strong></span><br>
+            <span>Nombre y firma de enterado</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <style>
+    .justificante-page {
+      font-family: 'Arial';
+      font-style: normal;
+      width: 215.9mm;
+      height: 279.4mm;
+      background-color: white;
+      margin: auto;
+    }
+  
+    .justificante-content {
+      padding: 12.7mm;
+    }
+  
+    .justificante-header {
+      line-height: 0.5;
+    }
+  
+    h1.justificante {
+      text-align: center;
+      font-size: 14pt;
+      font-weight: bold;
+    }
+  
+    h2.justificante {
+      font-size: 14pt;
+      text-align: center;
+      font-weight: bold;
+    }
+  
+    h3.justificante {
+      margin: 0;
+      font-weight: normal;
+      text-align: right;
+      font-size: 12pt;
+    }
+  
+    .justificante-text {
+      font-size: 12pt;
+      line-height: 1.5;
+    }
+  
+    .indent-justificante {
+      text-indent: 40px;
+      display: block;
+    }
+  </style>
+  
+  <div class="ocultar" style="position: absolute; left: -9999px; top: -9999px;">
+    <div id="justificante-page" class="justificante-page">
+      <div class="justificante-content">
+        <div class="justificante-header">
+          <h1 class="justificante" style="color: black;">J  &nbsp; U&nbsp;  S &nbsp; T&nbsp;  I &nbsp; F &nbsp; I &nbsp; C &nbsp; A&nbsp; N&nbsp;  T &nbsp; E</h1>
+          <h2 class="justificante">PLANTEL N° 35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAZATLÁN,SINALOA</h2>
+          <h3 class="justificante">MAZATLÁN, SIN.: <span id="justificante-fecha"></span></h3>
+          <img src="banner-cobaes.png" style="width: 250px;" alt="">
+        </div>
+  
+        <div class="justificante-text">
+          <span>C.C. MAESTRA DEL <span id="justificante-sem"></span> SEM.</span><br>
+          <span>GRUPO <span id="justificante-grupo"></span>.</span><br>
+          <span>PRENSENTES:</span>
+          <div class="indent-justificante">
+            <span>FAVOR DE JUSTIFICAR LA FALTA DEL ALUMNO <span id="justificante-alumno"></span> EL DIA <span id="justificante-dia"></span> AL <span id="justificante-dia2"></span> EN EL MES DE <span id="justificante-mes"></span>.</span>
+          </div>
+  
+          <span>MOTIVOS: 
+            <input style="margin-left: 40px;" type="checkbox" id="justificante-checkboxSalud">SALUD
+            <input style="margin-left: 100px;" type="checkbox" id="justificante-checkboxCitaMedica">CITA MÉDICA
+            <input type="checkbox" style="margin-left: 100px;" id="justificante-checkboxPersonales">PERSONALES
+          </span><br>
+          
+          <span>
+            <input style="margin-left: 122px;" type="checkbox" id="justificante-checkboxTramites">TRAMITES EXTERNOS
+            <input style="margin-left: 100px;" type="checkbox" id="justificante-checkboxOtros">OTROS<span id="justificante-otros"></span>
+          </span><br>
+          
+          <h1 class="justificante" style="color: black;">A  &nbsp; T &nbsp;  T &nbsp; E &nbsp;  N &nbsp; T &nbsp; A &nbsp; M &nbsp; E &nbsp; N&nbsp;  T &nbsp; E</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</html>

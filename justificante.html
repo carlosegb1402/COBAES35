@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Justificante</title>
+    <link rel="icon" href="icono-192.png" type="image/png">
+    <script src="files/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  </head>
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+
+.page-pdf {
+  font-family: 'Arial';
+  font-style: normal;
+    width: 215.9mm;
+    height: 279.4mm;
+    background-color: white;
+    margin: auto;
+}
+
+.content-pdf {
+    padding: 12.7mm;
+}
+
+.header-pdf {
+    line-height: 0.5;
+}
+
+h1.pdf {
+    text-align: center;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+h2.pdf {
+    font-size: 14pt;
+    text-align: center;
+    font-weight: bold;
+}
+
+h3.pdf {
+    margin: 0;
+    font-weight: normal;
+    text-align: right;
+    font-size: 12pt;
+}
+
+.texto-pdf {
+    
+    font-size: 12pt;
+    line-height: 1.5;
+}
+
+
+
+
+
+* {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0); 
+    -moz-tap-highlight-color: transparent; 
+}
+html,body {
+    background: linear-gradient(to right, #1d976c, #93f9b9);
+    overflow: hidden;
+}
+
+.contenido{
+  background-color: whitesmoke;
+      border-radius: 40px;
+      font-family: 'Oswald';
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      transform: translate(-50%, -50%);
+      position: fixed;
+      top: 50%; 
+      left: 50%; 
+      width: 380px;
+      height: 700px;
+    }
+    .tituloForm{
+      color: #353535;
+      font-size: 40px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+    .h3Form{
+    margin-bottom:0;
+    color: #353535;
+    font-size: 20px;
+    }
+    
+    .inputCarta {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #a1a1a1;
+    border-radius: 10px;
+    font-family: "Oswald";
+    font-size: 16px; 
+    font-weight: bold;
+    box-sizing: border-box; 
+    color:  #353535;
+    }
+    .inputCarta:focus {
+    outline-color:  #353535; 
+}
+
+.btnsForm {
+    display: flex;
+    justify-content: center;
+    gap: 20px; 
+    margin-top: 40px; 
+}
+.btnForm{
+  font-family: 'Oswald';
+  background: linear-gradient(to right, #1d976c, #93f9b9);
+  width: 100%;
+  border: none;
+  height: 50px;
+  cursor: pointer;
+  border-radius:10px;
+  color: white;
+  font-size: 25px;
+  
+}
+
+.container-select {
+            display: flex;
+            gap: 10px; 
+        }
+
+        .custom-select{
+             width: 95px;
+            padding: 5px;
+            height: 40px;
+            border: 1px solid #a1a1a1;
+            border-radius: 10px;
+            font-family: "Oswald", sans-serif;
+            font-size:14px;
+            font-weight: bold;
+            box-sizing: border-box;
+            color: #353535;
+            background-color: white;
+        }
+        .custom-select2{
+             width: 300px;
+            padding: 5px;
+            height: 40px;
+            border: 1px solid #a1a1a1;
+            background-color: white;
+            border-radius: 10px;
+            font-family: "Oswald", sans-serif;
+            font-size:16px;
+            font-weight: bold;
+            box-sizing: border-box;
+            color: #353535;
+        }
+
+        .file-input-container {
+    position: relative;
+    width: 95px;
+    height: 40px;
+}
+
+.file-input {
+    opacity: 0; 
+    width: 300px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.file-input-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
+    height: 40px;
+    border: 1px solid #a1a1a1;
+    border-radius: 10px;
+    background-color: white;
+    font-family: "Oswald", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #353535;
+    cursor: pointer;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.file-input-label:hover {
+    background-color: white;
+}
+.hidden {
+    display: none;
+}
+
+
+
+  </style>
+
+
+<body>
+
+  <div class="ocultar" style=" position: absolute;
+  left: -9999px;
+  top: -9999px;" >
+   <div id="page-pdf" class="page-pdf">
+    <div class="content-pdf">
+        <div class="header-pdf">
+            <h1 style="color: black;"  class="pdf">J  &nbsp; U&nbsp;  S &nbsp; T&nbsp;  I &nbsp; F &nbsp; I &nbsp; C &nbsp; A&nbsp; N&nbsp;  T &nbsp; E</h1>
+            <h2 class="pdf">PLANTEL N° 35&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MAZATLÁN,SINALOA</h2>
+            <h3 class="pdf">MAZATLÁN, SIN.: <span id="fecha-pdf"></span></h3>
+            <img src="banner-cobaes.png" style="width: 250px;" alt="">
+        </div>
+  
+        <div class="texto-pdf">
+            <span>C.C. MAESTRA DEL <span id="sem-pdf"></span> SEM.</span><br>
+            <span>GRUPO <span id="grupo-pdf"></span>.</span><br>
+            <span>PRENSENTES:</span>
+            <div class="indent-pdf">
+                <span>FAVOR DE JUSTIFICAR LA FALTA DEL ALUMNO <span id="alumno-pdf"></span> EL DIA <span id="dia-pdf"></span> AL <span id="dia2-pdf"></span> EN EL MES DE <span id="mes-pdf"></span>.</span>
+            </div>
+  
+            <span>MOTIVOS: 
+              <input style="margin-left: 40px;" type="checkbox" id="checkboxSalud">SALUD
+              <input style="margin-left: 100px;" type="checkbox" id="checkboxCitaMedica">CITA MÉDICA
+              <input type="checkbox" style="margin-left: 100px;" id="checkboxPersonales">PERSONALES
+            </span><br>
+            
+            <span>
+              <input style="margin-left: 122px;" type="checkbox" id="checkboxTramites">TRAMITES EXTERNOS
+              <input style="margin-left: 100px;" type="checkbox" id="checkboxOtros">OTROS<span id="otros-pdf"></span>
+            </span><br>
+            
+            <h1 style="color: black;" class="pdf">A  &nbsp; T &nbsp;  T &nbsp; E &nbsp;  N &nbsp; T &nbsp; A &nbsp; M &nbsp; E &nbsp; N&nbsp;  T &nbsp; E</h1>
+        </div>
+    </div>
+          </div>
+        </div>
+
+  <div class="contenido">
+
+    <form id="compromisoForm">
+
+      <h1 class="tituloForm">Justificante</h1>
+
+    <h3 class="h3Form">Alumno:</h3>
+    <input  style="text-transform: capitalize;" class="inputCarta" autocomplete="off" id="alumno" required="" type="text"  placeholder="Alumno" minlength="15">
+    <h3 class="h3Form">Grupo:</h3>
+    <input class="inputCarta" autocomplete="off" id="grupo" required="" type="tel" minlength="3" maxlength="3" placeholder="Grupo">
+    <h3 class="h3Form">Semestre:</h3>
+    <input class="inputCarta" autocomplete="off" id="semestre" required="" type="tel" maxlength="1" placeholder="Semestre">
+    <br><br>
+ 
+
+  <div class="container-select">
+
+    <select required id="dia1" class="custom-select">
+        <option disabled selected>Dia</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+    </select>
+
+
+    <select required="true" id="dia2" class="custom-select">
+      <option disabled selected>Al Dia</option>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+        <option>13</option>
+        <option>14</option>
+        <option>15</option>
+        <option>16</option>
+        <option>17</option>
+        <option>18</option>
+        <option>19</option>
+        <option>20</option>
+        <option>21</option>
+        <option>22</option>
+        <option>23</option>
+        <option>24</option>
+        <option>25</option>
+        <option>26</option>
+        <option>27</option>
+        <option>28</option>
+        <option>29</option>
+        <option>30</option>
+        <option>31</option>
+    </select>
+
+
+
+    <select required id="mes" class="custom-select">
+      <option disabled selected>Del Mes</option>
+      <option value="ENERO">ENERO</option>
+      <option value="FEBRERO">FEBRERO</option>
+      <option value="MARZO">MARZO</option>
+      <option value="ABRIL">ABRIL</option>
+      <option value="MAYO">MAYO</option>
+      <option value="JUNIO">JUNIO</option>
+      <option value="JULIO">JULIO</option>
+      <option value="AGOSTO">AGOSTO</option>
+      <option value="SEPTIEMBRE">SEPTIEMBRE</option>
+      <option value="OCTUBRE">OCTUBRE</option>
+      <option value="NOVIEMBRE">NOVIEMBRE</option>
+      <option value="DICIEMBRE">DICIEMBRE</option>
+    </select>
+
+</div><br>
+
+         <select required  id="motivo" class="custom-select2">
+          <option disabled selected>Seleccionar</option>
+          <option value="SALUD">SALUD</option>
+          <option value="CITA MEDICA">CITA MEDICA</option>
+          <option value="PERSONALES">PERSONALES</option>
+          <option value="TRAMITES EXTERNOS">TRAMITES EXTERNOS</option>
+          <option value="OTROS">OTROS</option>
+        </select>
+
+        <br>
+
+  
+<br>
+
+    <div class="file-input-container">
+        <input type="file" id="imagen" accept="image/*" class="file-input">
+        <label for="imagen" id="label-img" class="file-input-label">Insertar Comprobante</label>
+    </div>
+
+
+
+    <div class="btnsForm">
+      <button class="btnForm" type="button"  onclick="window.location.href='index.html';">Cancelar</button>
+      <button class="btnForm" type="submit">Imprimir</button>
+    </div>
+
+    </form>
+  </div>
+
+</body>
+
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+  import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-database.js";
+  import { getStorage, ref as refS , uploadBytesResumable, getDownloadURL  } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-storage.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpfZQ-XYddUmYiWoI2DUC33f-XhDDgoIE",
+    authDomain: "cobaes35-a4d98.firebaseapp.com",
+    projectId: "cobaes35-a4d98",
+    storageBucket: "cobaes35-a4d98.appspot.com",
+    messagingSenderId: "758607121239",
+    appId: "1:758607121239:web:eb5f71566fdf6b6d844c12"
+  };
+  
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
+  const storage = getStorage(app);
+  
+  function obtenerFechaFormateada() {
+        const fechaActual = new Date();
+        const dia = fechaActual.getDate().toString().padStart(2, '0');
+        const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+        const año = fechaActual.getFullYear();
+        let horas = fechaActual.getHours();
+        const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+        const periodo = horas >= 12 ? 'p.m.' : 'a.m.';
+        horas = horas % 12;
+        horas = horas ? horas : 12;
+        const horaFormateada = `${horas}:${minutos} ${periodo}`;
+        return `${dia}/${mes}/${año} ${horaFormateada}`;
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+  const form = document.getElementById('compromisoForm');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    insertarReporte();
+  });
+});
+
+  async function insertarReporte() {
+    
+    const reportesRef = ref(db, 'Justificante');
+ 
+
+    const alumno = document.getElementById('alumno').value;
+    const grupoValue = document.getElementById('grupo').value.toUpperCase();
+    const dia1Value = document.getElementById('dia1').value;
+    const dia2Value = document.getElementById('dia2').value;
+    const mesValue = document.getElementById('mes').value.toUpperCase();
+    const motivoValue = document.getElementById('motivo').value;
+    const semestre = document.getElementById('semestre').value.toUpperCase();
+ 
+
+    const fecha = new Date();
+    const fechaFormateada = `${fecha.getDate()} de ${[
+        'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+        'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+    ][fecha.getMonth()]} de ${fecha.getFullYear()}`;
+
+    const fileInput = document.getElementById('imagen');
+    const file = fileInput.files[0];
+    const fileLabel = document.getElementById('label-img');
+
+    let imgURL = 'error-img.png'; 
+    
+    try {
+    if (file) {
+        fileLabel.textContent = "Subiendo comprobante...";
+        const storageRef = refS(storage, `justificantes/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytesResumable(storageRef, file);
+        imgURL = await getDownloadURL(snapshot.ref);
+        
+        fileLabel.textContent = "Comprobante subido exitosamente";
+    }
+
+        const nuevoReporte = {
+            tipo: "Justificante",
+            nombre: alumno.toUpperCase(),
+            semestre: semestre,
+            dia1: dia1Value,
+            dia2: dia2Value,
+            mes: mesValue,
+            motivo: motivoValue,
+            fecha2: fechaFormateada.toUpperCase(),
+            fecha: obtenerFechaFormateada(),
+            status: false,
+            grupo: grupoValue,
+            imagen: imgURL
+        };
+
+        await push(reportesRef, nuevoReporte);
+        subirScroll();
+        imprimir();
+        limpiarFormulario();
+    } catch (error) {
+        console.error("Error al enviar datos:", error);
+    }
+}
+
+
+function limpiarFormulario() {
+    document.getElementById("alumno").value = "";
+    document.getElementById("grupo").value = "";
+    document.getElementById("semestre").value = "";
+    document.getElementById('dia1').selectedIndex = 0;
+     document.getElementById('dia2').selectedIndex = 0;
+    document.getElementById("mes").selectedIndex = 0;
+     document.getElementById('motivo').selectedIndex = 0;
+}
+
+
+function subirScroll() {
+    window.scrollTo({
+        top: 0
+    });
+}
+
+
+function imprimir() {
+var alumnoValue = document.getElementById('alumno').value.toUpperCase();
+var grupoValue = document.getElementById('grupo').value.toUpperCase();
+var dia1Value = document.getElementById('dia1').value;
+var dia2Value = document.getElementById('dia2').value;
+var mesValue = document.getElementById('mes').value.toUpperCase();
+var motivoValue = document.getElementById('motivo').value;
+var semestre = document.getElementById('semestre').value.toUpperCase();
+
+const fecha = new Date();
+const fechaFormateada = `${fecha.getDate()} de ${[
+    'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+    'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+][fecha.getMonth()]} de ${fecha.getFullYear()}`;
+
+document.getElementById('alumno-pdf').innerText = alumnoValue;
+document.getElementById('grupo-pdf').innerText = grupoValue;
+document.getElementById('dia-pdf').innerText = dia1Value;
+document.getElementById('dia2-pdf').innerText = dia2Value;
+document.getElementById('mes-pdf').innerText = mesValue;
+document.getElementById('sem-pdf').innerText = semestre;
+document.getElementById('fecha-pdf').innerText = fechaFormateada.toUpperCase();
+
+var checkboxSalud = document.getElementById('checkboxSalud');
+var checkboxCitaMedica = document.getElementById('checkboxCitaMedica');
+var checkboxPersonales = document.getElementById('checkboxPersonales');
+var checkboxOtros = document.getElementById('checkboxOtros');
+var checkboxTramites = document.getElementById('checkboxTramites');
+
+checkboxSalud.checked = false;
+checkboxCitaMedica.checked = false;
+checkboxPersonales.checked = false;
+checkboxOtros.checked = false;
+checkboxTramites.checked = false;
+
+switch (motivoValue) {
+    case 'SALUD':
+        checkboxSalud.checked = true;
+        break;
+    case 'CITA MEDICA':
+        checkboxCitaMedica.checked = true;
+        break;
+    case 'TRAMITES EXTERNOS':
+        checkboxTramites.checked = true;
+        break;
+    case 'PERSONALES':
+        checkboxPersonales.checked = true;
+        break;
+    case 'OTROS':
+        checkboxOtros.checked = true;
+}
+
+
+  const delay = 50; 
+
+  setTimeout(() => {
+    generar('Justificante_'+alumnoValue+'_'+grupoValue+'.pdf');
+  }, delay);
+
+}
+
+function generar(filename){
+var element = document.getElementById('page-pdf');
+
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent))  {
+
+          html2pdf(element, {
+            filename: filename,
+            image: { type: 'jpeg', quality: 5 },
+              html2canvas: { scale: 4, logging: true },
+              jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+        }); 
+
+        }
+
+        else{
+          const options = {
+        margin: [0, 0, 0, 0],
+        filename: 'documento.pdf', 
+        image: { type: 'jpeg', quality: 5 }, 
+        html2canvas: { scale: 4 }, 
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' } 
+      };
+    
+      html2pdf().set(options).from(element).toPdf().get('pdf').then(function (pdf) {
+        window.open(pdf.output('bloburl'), '_blank');
+      });
+
+        }
+}
+
+
+
+function volver(){
+window.location.href = 'index.html';
+}
+
+ 
+    
+</script>
+
+</html>
